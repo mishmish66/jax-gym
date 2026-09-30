@@ -1,0 +1,63 @@
+[project]
+name = "jax-gym"
+version = "0.1.0"
+requires-python = ">=3.14"
+license = "LicenseRef-VibeCoded-AI-Slop-1.0 AND MIT AND BSD-3-Clause AND Apache-2.0"
+license-files = ["LICENSE", "THIRD_PARTY_NOTICES.md"]
+dependencies = [
+    "jax>=0.11.2",
+    "jax-pomdps",
+    "mujoco-mjx>=3.14.0",
+    "numpy>=2.5.3",
+]
+
+[project.optional-dependencies]
+cuda = ["jax[cuda]>=0.11.2"]
+
+[build-system]
+requires = ["uv_build>=0.8.14,<0.9.0"]
+build-backend = "uv_build"
+
+[tool.uv.sources]
+jax-pomdps = { git = "https://github.com/mishmish66/jax-pomdps" }
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+]
+
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
+include = ["src", "tests"]
+exclude = ["tests/references"]
+typeCheckingMode = "strict"
+reportUnknownMemberType = false
+reportUnknownArgumentType = false
+reportUnknownVariableType = false
+reportUnknownParameterType = false
+reportUnknownLambdaType = false
+reportMissingTypeStubs = false
+
+[tool.ruff]
+line-length = 88
+target-version = "py314"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "C4", "UP", "SIM", "D", "ANN", "RUF"]
+ignore = [
+    "F722",  # jaxtyping shape strings
+    "UP037",  # jaxtyping shape strings
+    "RUF001", "RUF002", "RUF003",  # Greek identifiers and math in docs
+    "D100", "D101", "D102", "D103", "D104", "D105", "D107",
+    "E741",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["ANN"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+[tool.ruff.lint.flake8-bugbear]
+extend-immutable-calls = ["jax_gym.mujoco.render.Camera"]

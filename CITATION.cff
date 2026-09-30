@@ -1,0 +1,70 @@
+cff-version: 1.2.0
+message: >-
+  This repository ports other people's work. Please cite the original tasks, Gymnasium,
+  and the simulators listed in references, not only this repository.
+title: "jax-gym: Gymnasium tasks in JAX"
+type: software
+authors:
+  - given-names: Misha
+    family-names: Lvovsky
+license-url: "https://gist.github.com/NicolasCARPi/3fd349ed1ed52ae6b835d5364cda4cd6"
+references:
+  - type: article
+    title: "Gymnasium: A Standard Interface for Reinforcement Learning Environments"
+    authors:
+      - {given-names: Mark, family-names: Towers}
+      - {given-names: Ariel, family-names: Kwiatkowski}
+      - {given-names: Jordan K., family-names: Terry}
+      - {given-names: John U., family-names: Balis}
+      - {given-names: Gianluca, family-names: De Cola}
+      - {given-names: Tristan, family-names: Deleu}
+      - {given-names: Manuel, family-names: Goulão}
+      - {given-names: Andreas, family-names: Kallinteris}
+      - {given-names: Markus, family-names: Krimmel}
+      - {given-names: Arjun, family-names: KG}
+      - {given-names: Rodrigo, family-names: Perez-Vicente}
+      - {given-names: Andrea, family-names: Pierré}
+      - {given-names: Sander, family-names: Schulhoff}
+      - {given-names: Jun Jet, family-names: Tai}
+      - {given-names: Hannah, family-names: Tan}
+      - {given-names: Omar G., family-names: Younis}
+    year: 2024
+    identifiers:
+      - {type: other, value: "arXiv:2407.17032"}
+  - type: article
+    title: "OpenAI Gym"
+    authors:
+      - {given-names: Greg, family-names: Brockman}
+      - {given-names: Vicki, family-names: Cheung}
+      - {given-names: Ludwig, family-names: Pettersson}
+      - {given-names: Jonas, family-names: Schneider}
+      - {given-names: John, family-names: Schulman}
+      - {given-names: Jie, family-names: Tang}
+      - {given-names: Wojciech, family-names: Zaremba}
+    year: 2016
+    identifiers:
+      - {type: other, value: "arXiv:1606.01540"}
+  - type: conference-paper
+    title: "MuJoCo: A physics engine for model-based control"
+    authors:
+      - {given-names: Emanuel, family-names: Todorov}
+      - {given-names: Tom, family-names: Erez}
+      - {given-names: Yuval, family-names: Tassa}
+    year: 2012
+    conference: {name: "IROS"}
+  - type: conference-paper
+    title: "Brax – A Differentiable Physics Engine for Large Scale Rigid Body Simulation"
+    authors:
+      - {given-names: C. Daniel, family-names: Freeman}
+      - {given-names: Erik, family-names: Frey}
+      - {given-names: Anton, family-names: Raichuk}
+      - {given-names: Sertan, family-names: Girgin}
+      - {given-names: Igor, family-names: Mordatch}
+      - {given-names: Olivier, family-names: Bachem}
+    year: 2021
+    conference: {name: "NeurIPS Datasets and Benchmarks"}
+  - type: software
+    title: "Box2D"
+    authors:
+      - {given-names: Erin, family-names: Catto}
+    url: "https://box2d.org"

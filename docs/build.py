@@ -1,9 +1,11 @@
 """Render the documentation site with pdoc.
 
-    uv run --extra playground --with pdoc python docs/build.py --gifs <dir> --out site
+    uv run --extra playground --with pdoc python docs/build.py --out site
 
-`--gifs` holds the task GIFs that `docs/tasks.md` shows, named as it names them; the
-site serves them from `gifs/`.
+The site serves the GIFs that `docs/tasks.md` shows from `gifs/`, copied from `--gifs`.
+`docs/gifs` holds them in Git LFS, which clones skip; fetch them with
+`git lfs pull --include "docs/gifs/**" --exclude ""`. `.github/workflows/docs.yml`
+builds and publishes the site on every push to `main`.
 """
 
 import argparse
@@ -17,7 +19,7 @@ import pdoc.render
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--gifs", type=Path, required=True)
+    parser.add_argument("--gifs", type=Path, default=Path(__file__).parent / "gifs")
     parser.add_argument("--out", type=Path, default=Path("site"))
     args = parser.parse_args()
     modules = ["jax_gym"]

@@ -252,8 +252,8 @@ uv sync --extra playground   # MuJoCo Playground's tasks and their tests
 ```
 
 The documentation site is pdoc's rendering of the package, whose page includes
-`docs/tasks.md`. `docs/build.py` writes it, given a directory of the task GIFs:
+`docs/tasks.md`. `docs/build.py` writes it; its GIFs are in Git LFS, which clones skip:
 
 ```
-uv run --extra playground --with pdoc python docs/build.py --gifs <dir> --out site
+uv run --extra playground --with pdoc python docs/build.py --out site
 ```

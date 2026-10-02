@@ -1,4 +1,7 @@
-"""Gymnasium's tasks as `jax_pomdps` POMDPs, registered on import."""
+"""Gymnasium's tasks as `jax_pomdps` POMDPs, registered on import.
+
+.. include:: ../../docs/tasks.md
+"""
 
 import importlib
 

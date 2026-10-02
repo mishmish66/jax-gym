@@ -67,6 +67,16 @@ starting, revolute joints with motors and limits, speculative contacts, nonlinea
 Gauss-Seidel position correction, and sleeping. Gymnasium's Box2D tasks simulate with
 Box2D itself through pybox2d.
 
+### MuJoCo Playground (Apache 2.0)
+
+MuJoCo Playground, © 2025 DeepMind Technologies Limited, Apache License 2.0,
+<https://github.com/google-deepmind/mujoco_playground>, by Kevin Zakka, Baruch Tabanpour,
+Qiayuan Liao, Mustafa Haiderbhai, Samuel Holt, Jing Yuan Luo, Arthur Allshire, Erik Frey,
+Koushil Sreenath, Lueder A. Kahrs, Carlo Sferrazza, Yuval Tassa and Pieter Abbeel. It is
+an optional dependency, not copied: `src/jax_gym/playground.py` wraps its tasks. Those
+tasks build on the DeepMind Control Suite and on robot models from MuJoCo Menagerie,
+which carry their own authors and licenses.
+
 ### Inigo Quilez (methods)
 
 The ray intersections of capsules and cylinders in `src/jax_gym/mujoco/render.py` follow

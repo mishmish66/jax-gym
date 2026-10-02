@@ -7,7 +7,10 @@ Everything here is a copy. The tasks, their dynamics, rewards and scenes, and th
 models were invented and built by the people listed under [Credits](#credits); this
 repository only re-expresses their work in JAX.
 
-![Every task after a few random steps](assets/envs.png)
+![A PPO policy trained here on each task](assets/envs.gif)
+
+[Documentation](https://mishmish66.github.io/jax-gym/) describes every task, quoting its
+sources, with 16 rollouts of a trained policy for each.
 
 ```python
 import jax, jax_pomdps
@@ -87,6 +90,13 @@ The software these ports copy and run on:
 - **MuJoCo**: Emanuel Todorov, Tom Erez and Yuval Tassa, "MuJoCo: A physics engine for
   model-based control", IROS 2012; maintained by Google DeepMind, with **MJX**, on which
   the MuJoCo tasks run.
+- **MuJoCo Playground**, whose tasks `jax_gym.playground` registers: Kevin Zakka, Baruch
+  Tabanpour, Qiayuan Liao, Mustafa Haiderbhai, Samuel Holt, Jing Yuan Luo, Arthur
+  Allshire, Erik Frey, Koushil Sreenath, Lueder A. Kahrs, Carlo Sferrazza, Yuval Tassa and
+  Pieter Abbeel, "MuJoCo Playground: An open-source framework for GPU-accelerated robot
+  learning and sim-to-real transfer", 2025. Its tasks build on the DeepMind Control Suite
+  (Yuval Tassa et al., 2018) and the robot models of MuJoCo Menagerie (Kevin Zakka et al.,
+  2022), each with its own authors and license.
 - **JAX**: James Bradbury, Roy Frostig, Peter Hawkins, Matthew James Johnson, Chris
   Leary, Dougal Maclaurin, George Necula, Adam Paszke, Jake VanderPlas, Skye
   Wanderman-Milne and Qiao Zhang, "JAX: composable transformations of Python+NumPy
@@ -130,6 +140,11 @@ Licenses: the copied and ported parts keep their licenses (Gymnasium's MIT, RLPy
 
 Keyword arguments follow Gymnasium's: `jax_pomdps.make("lunar-lander", enable_wind=True)`,
 `jax_pomdps.make("hopper", reset_noise_scale=0.01)`.
+
+## MuJoCo Playground
+
+With the `playground` extra, `import jax_gym.playground` registers Playground's 54 tasks
+as `playground/<name>`, e.g. `playground/go1-joystick-flat-terrain`.
 
 ## Transfer
 
@@ -233,4 +248,12 @@ MuJoCo, the native size otherwise).
 uv sync                 # CPU
 uv sync --extra cuda    # GPU
 uv run pytest
+uv sync --extra playground   # MuJoCo Playground's tasks and their tests
+```
+
+The documentation site is pdoc's rendering of the package, whose page includes
+`docs/tasks.md`. `docs/build.py` writes it, given a directory of the task GIFs:
+
+```
+uv run --extra playground --with pdoc python docs/build.py --gifs <dir> --out site
 ```

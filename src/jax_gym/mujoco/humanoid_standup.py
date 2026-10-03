@@ -22,7 +22,7 @@ from jax_pomdps import Key, register
 from jax_pomdps.spaces import Box
 from mujoco import mjx
 
-from jax_gym._variants import register_pixels
+from jax_gym._variants import register_variants
 from jax_gym.mujoco import _base, render
 from jax_gym.mujoco.humanoid import humanoid_observation, humanoid_observation_size
 from jax_gym.mujoco.render import Camera
@@ -105,6 +105,6 @@ class HumanoidStandup:
         return jnp.zeros((), bool)
 
 
-register_pixels(
+register_variants(
     "humanoid-standup", HumanoidStandup, lambda env: _base.ActuatedJoints(env.xml_file)
 )

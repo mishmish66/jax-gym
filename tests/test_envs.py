@@ -54,9 +54,9 @@ KEY = jax.random.key(0)
         ("bipedal-walker/hardcore", Box, Box),
         ("car-racing", Box, Image),
         ("car-racing/discrete", Discrete, Image),
-        ("car-racing/vec", Box, Box),
-        ("car-racing/prp", Box, Box),
-        ("car-racing/discrete/vec", Discrete, Box),
+        ("car-racing/mkv", Box, Box),
+        ("car-racing/discrete/mkv", Discrete, Box),
+        ("tiger/mkv", Discrete, Discrete),
     ],
 )
 def test_space_types(
@@ -70,7 +70,7 @@ def test_space_types(
 RENDERED_NAMES = [name for name in ENV_NAMES if name != "tiger"]
 PIXEL_NAMES = RENDERED_NAMES
 PROPRIO_NAMES = ["bipedal-walker", "bipedal-walker/hardcore", "car-racing"]
-FEATURE_NAMES = ["car-racing/vec", "car-racing/prp", "car-racing/discrete/vec"]
+FEATURE_NAMES = ["car-racing/mkv", "car-racing/discrete/mkv", "tiger/mkv"]
 
 
 @pytest.mark.parametrize("name", FEATURE_NAMES)
@@ -78,16 +78,67 @@ def test_feature_variant_rollouts_stay_in_spaces_until_done(name: str):
     _assert_rollouts_stay_in_spaces(jax_pomdps.make(name), steps=50)
 
 
-def test_car_vector_features_start_with_proprio_and_see_the_track_ahead():
+def test_car_markov_features_start_with_proprio_and_see_the_track_ahead():
     env = jax_pomdps.make("car-racing")
     state = env.reset(KEY)
-    vector = jax_pomdps.make("car-racing/vec").observe(KEY, state, jnp.zeros(3))
-    proprio = jax_pomdps.make("car-racing/prp").observe(KEY, state, jnp.zeros(3))
-    np.testing.assert_array_equal(vector[:7], proprio)
+    vector = jax_pomdps.make("car-racing/mkv").observe(KEY, state, jnp.zeros(3))
+    np.testing.assert_array_equal(vector[:7], cr.Proprio()(state))
     np.testing.assert_array_equal(vector[9:13], 1.0)
     ahead = vector[13:].reshape(-1, 2)
     assert (ahead[:, 1] > 0).all()
     assert (np.diff(ahead[:, 1]) > 0).all()
+
+
+GYMNASIUM_NAMES = RENDERED_NAMES
+MARKOV_AS_GYMNASIUM = [
+    "lunar-lander",
+    "lunar-lander/continuous",
+    "pendulum",
+    "cart-pole",
+    "acrobot",
+    "mountain-car",
+    "mountain-car/continuous",
+    "bipedal-walker",
+    "bipedal-walker/hardcore",
+]
+
+
+@pytest.mark.parametrize("name", GYMNASIUM_NAMES)
+def test_gym_variant_is_the_task(name: str):
+    assert jax_pomdps.make(f"{name}/gym") == jax_pomdps.make(name)
+
+
+@pytest.mark.parametrize("name", MARKOV_AS_GYMNASIUM)
+def test_markov_variant_observes_gymnasiums_observation_where_it_suffices(name: str):
+    assert jax_pomdps.make(f"{name}/mkv") == jax_pomdps.make(name)
+
+
+def test_every_rendered_task_has_gym_and_markov_variants():
+    registered = set(jax_pomdps.registered())
+    pixels = [name for name in registered if name.endswith("/pix")]
+    rendered = {name.removesuffix("/pix") for name in pixels}
+    assert {f"{name}/gym" for name in rendered} <= registered
+    assert {f"{name}/mkv" for name in rendered} <= registered
+
+
+def test_tiger_markov_variant_observes_the_tiger():
+    env = jax_pomdps.make("tiger/mkv")
+    for side in Side:
+        state = jnp.asarray(side)
+        assert env.observe(KEY, state, Action.LISTEN) == side
+
+
+def test_windy_lander_markov_variant_adds_the_wind_to_gymnasiums_observation():
+    env = jax_pomdps.make("lunar-lander/mkv", enable_wind=True)
+    lander = LunarLander(enable_wind=True)
+    state = lander.reset(KEY)
+    obs = env.observe(KEY, state, 0)
+    np.testing.assert_array_equal(obs[:8], lander.observe(KEY, state, 0))
+    np.testing.assert_allclose(
+        obs[8:],
+        [ll._wind(state.wind_index, 15.0), ll._wind(state.torque_index, 1.5)],
+    )
+    _assert_rollouts_stay_in_spaces(env, steps=50)
 
 
 @pytest.mark.parametrize("name", ENV_NAMES)

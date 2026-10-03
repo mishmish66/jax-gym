@@ -13,7 +13,7 @@ from jax.typing import ArrayLike
 from jax_pomdps import Key, register
 from jax_pomdps.spaces import Box, Discrete
 
-from jax_gym._variants import register_pixels
+from jax_gym._variants import register_variants
 from jax_gym.draw import Canvas, rotate
 
 
@@ -126,4 +126,4 @@ class CartPole:
         )
 
 
-register_pixels("cart-pole", CartPole)
+register_variants("cart-pole", CartPole)

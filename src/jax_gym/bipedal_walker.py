@@ -21,7 +21,7 @@ from jax_pomdps import Key, register
 from jax_pomdps.spaces import Box
 
 from jax_gym import rigid2d
-from jax_gym._variants import register_pixels
+from jax_gym._variants import register_variants
 from jax_gym.draw import Canvas
 from jax_gym.rigid2d import Body, Ground, Joint, World
 
@@ -474,8 +474,8 @@ class Joints:
         return _joint_sensors(state)
 
 
-register_pixels("bipedal-walker", BipedalWalker, lambda env: Joints())
-register_pixels(
+register_variants("bipedal-walker", BipedalWalker, lambda env: Joints())
+register_variants(
     "bipedal-walker/hardcore",
     functools.partial(BipedalWalker, hardcore=True),
     lambda env: Joints(),

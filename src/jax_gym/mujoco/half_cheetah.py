@@ -17,7 +17,7 @@ from jax_pomdps import Key, register
 from jax_pomdps.spaces import Box
 from mujoco import mjx
 
-from jax_gym._variants import register_pixels
+from jax_gym._variants import register_variants
 from jax_gym.mujoco import _base, render
 from jax_gym.mujoco.render import Camera
 
@@ -70,6 +70,6 @@ class HalfCheetah:
         return jnp.zeros((), bool)
 
 
-register_pixels(
+register_variants(
     "half-cheetah", HalfCheetah, lambda env: _base.ActuatedJoints(env.xml_file)
 )

@@ -116,15 +116,29 @@ def register_features[Env: POMDP[Any, Any, Any]](
     register(name, measured)
 
 
-def register_pixels[Env: Drawable[Any, Any]](
+def register_variants[Env: Drawable[Any, Any]](
     name: str,
     factory: Callable[..., Env],
     proprio: Callable[[Env], Features[Any]] | None = None,
+    markov: Callable[[Env], Features[Any] | None] | None = None,
 ) -> None:
-    """Register `{name}/pix`, and with `proprio` also `{name}/pix-prp`.
+    """Register the observation variants of Gymnasium task `name`.
 
-    Both take `width` and `height` besides the arguments of `factory`.
+    `{name}/gym` observes Gymnasium's observation, as `name` does. `{name}/mkv`
+    observes `markov` of the task where it returns features, and Gymnasium's
+    observation otherwise: close enough to the state for a memoryless policy.
+    `{name}/pix` observes renders, and with `proprio` `{name}/pix-prp` observes them
+    with proprioception; both take `width` and `height` besides the arguments of
+    `factory`.
     """
+    register(f"{name}/gym", factory)
+
+    def markov_variant(**kwargs: Any) -> Env | Measured[Any, Any]:  # noqa: ANN401
+        env = factory(**kwargs)
+        features = None if markov is None else markov(env)
+        return env if features is None else Measured(env, features)
+
+    register(f"{name}/mkv", markov_variant)
 
     def pixels(
         width: int = WIDTH,

@@ -18,7 +18,7 @@ from jax.typing import ArrayLike
 from jax_pomdps import Key, register
 from jax_pomdps.spaces import Box, Discrete
 
-from jax_gym._variants import register_pixels
+from jax_gym._variants import register_variants
 from jax_gym.draw import Canvas, rotate
 
 
@@ -184,4 +184,4 @@ class Acrobot:
         return -jnp.cos(state.theta1) - jnp.cos(state.theta1 + state.theta2) > 1.0
 
 
-register_pixels("acrobot", Acrobot)
+register_variants("acrobot", Acrobot)

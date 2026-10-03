@@ -23,7 +23,7 @@ from jax_pomdps import Key, register
 from jax_pomdps.spaces import Box, Discrete
 
 from jax_gym import rigid2d
-from jax_gym._variants import register_pixels
+from jax_gym._variants import Features, register_variants
 from jax_gym.draw import Canvas
 from jax_gym.rigid2d import Body, Ground, Joint, World
 
@@ -355,9 +355,37 @@ class LunarLander:
 
 register("lunar-lander", LunarLander)
 register("lunar-lander/continuous", functools.partial(LunarLander, continuous=True))
-register_pixels("lunar-lander", LunarLander)
-register_pixels(
-    "lunar-lander/continuous", functools.partial(LunarLander, continuous=True)
+
+
+@dataclass(frozen=True, slots=True)
+class Wind:
+    """Gymnasium's observation, then the wind's force and torque on the lander."""
+
+    env: LunarLander
+
+    @property
+    def space(self) -> Box:
+        space = self.env.observation_space
+        power = (self.env.wind_power, self.env.turbulence_power)
+        low = np.concatenate([space.low, -np.asarray(power)])
+        high = np.concatenate([space.high, power])
+        return Box(low, high)
+
+    def __call__(self, state: LanderState) -> jax.Array:
+        wind = _wind(state.wind_index, self.env.wind_power)
+        torque = _wind(state.torque_index, self.env.turbulence_power)
+        return jnp.concatenate([_observation(state), jnp.stack([wind, torque])])
+
+
+def _markov(env: LunarLander) -> Features[LanderState] | None:
+    return Wind(env) if env.enable_wind else None
+
+
+register_variants("lunar-lander", LunarLander, markov=_markov)
+register_variants(
+    "lunar-lander/continuous",
+    functools.partial(LunarLander, continuous=True),
+    markov=_markov,
 )
 
 

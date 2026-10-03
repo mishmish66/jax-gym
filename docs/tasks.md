@@ -196,10 +196,7 @@ limits below are Gymnasium's and Playground's.
 > Landing outside of the landing pad is possible. Fuel is infinite, so an agent
 > can learn to fly and then land on its first attempt.
 >
-> To see a heuristic landing, run:
-> ```shell
-> python gymnasium/envs/box2d/lunar_lander.py
-> ```
+> […]
 >
 > **Rewards.** After every step a reward is granted. The total reward of an episode is the
 > sum of the rewards for all the steps within that episode.
@@ -240,10 +237,7 @@ limits below are Gymnasium's and Playground's.
 > Landing outside of the landing pad is possible. Fuel is infinite, so an agent
 > can learn to fly and then land on its first attempt.
 >
-> To see a heuristic landing, run:
-> ```shell
-> python gymnasium/envs/box2d/lunar_lander.py
-> ```
+> […]
 >
 > **Rewards.** After every step a reward is granted. The total reward of an episode is the
 > sum of the rewards for all the steps within that episode.
@@ -282,10 +276,7 @@ limits below are Gymnasium's and Playground's.
 > To solve the hardcore version, you need 300 points in 2000 time steps.
 >
 > A heuristic is provided for testing. It's also useful to get demonstrations
-> to learn from. To run the heuristic:
-> ```
-> python gymnasium/envs/box2d/bipedal_walker.py
-> ```
+> to learn from. […]
 >
 > **Rewards.** Reward is given for moving forward, totaling 300+ points up to the far end.
 > If the robot falls, it gets -100. Applying motor torque costs a small
@@ -313,10 +304,7 @@ limits below are Gymnasium's and Playground's.
 > To solve the hardcore version, you need 300 points in 2000 time steps.
 >
 > A heuristic is provided for testing. It's also useful to get demonstrations
-> to learn from. To run the heuristic:
-> ```
-> python gymnasium/envs/box2d/bipedal_walker.py
-> ```
+> to learn from. […]
 >
 > **Rewards.** Reward is given for moving forward, totaling 300+ points up to the far end.
 > If the robot falls, it gets -100. Applying motor torque costs a small
@@ -341,12 +329,7 @@ limits below are Gymnasium's and Playground's.
 > Some indicators are shown at the bottom of the window along with the
 > state RGB buffer. From left to right: true speed, four ABS sensors,
 > steering wheel position, and gyroscope.
-> To play yourself (it's rather fast for humans), type:
-> ```shell
-> python gymnasium/envs/box2d/car_racing.py
-> ```
-> Remember: it's a powerful rear-wheel drive car - don't press the accelerator
-> and turn at the same time.
+> […]
 >
 > **Rewards.** The reward is -0.1 every frame and +1000/N for every track tile visited, where N is the total number of tiles
 >  visited in the track. For example, if you have finished in 732 frames, your reward is 1000 - 0.1*732 = 926.8 points.
@@ -357,7 +340,7 @@ limits below are Gymnasium's and Playground's.
 
 **Origin.** Created by Oleg Klimov after Chris Campbell's top-down car tutorial; Gymnasium version by Andrea Pierré.
 
-**Here.** The car is one rigid body with Gymnasium's wheel friction model on Gymnasium's tracks. Observations are its 96×96 view; `car-racing/vec` and `car-racing/prp` observe vectors. Gymnasium's time limit is 1000 steps.
+**Here.** The car is one rigid body with Gymnasium's wheel friction model on Gymnasium's tracks. Observations are its 96×96 view; `car-racing/mkv` observes a vector. Gymnasium's time limit is 1000 steps.
 
 ### `car-racing/discrete`
 
@@ -1137,7 +1120,7 @@ Registered by `import jax_gym.playground` (the `playground` extra) under Playgro
 
 ##### `playground/humanoid-stand`
 
-<img src="gifs/playground__humanoid-stand.gif" alt="16 rollouts of a policy trained on playground/humanoid-stand" loading="lazy">
+**Here.** Training diverged, so no GIF.
 
 > Humanoid environment.
 >
@@ -1145,7 +1128,7 @@ Registered by `import jax_gym.playground` (the `playground` extra) under Playgro
 
 ##### `playground/humanoid-walk`
 
-<img src="gifs/playground__humanoid-walk.gif" alt="16 rollouts of a policy trained on playground/humanoid-walk" loading="lazy">
+**Here.** Training diverged, so no GIF.
 
 > Humanoid environment.
 >
@@ -1153,7 +1136,7 @@ Registered by `import jax_gym.playground` (the `playground` extra) under Playgro
 
 ##### `playground/humanoid-run`
 
-<img src="gifs/playground__humanoid-run.gif" alt="16 rollouts of a policy trained on playground/humanoid-run" loading="lazy">
+**Here.** Training diverged, so no GIF.
 
 > Humanoid environment.
 >
@@ -1429,7 +1412,7 @@ Playground's `Go1JoystickRoughTerrain`.
 
 Playground's `Go1Getup`.
 
-<img src="gifs/playground__go1-getup.gif" alt="16 rollouts of a policy trained on playground/go1-getup" loading="lazy">
+**Here.** No policy was trained for it, so no GIF.
 
 > Fall recovery task for the Go1.
 >

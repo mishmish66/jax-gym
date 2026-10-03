@@ -11,7 +11,7 @@ from jax.typing import ArrayLike
 from jax_pomdps import Key, register
 from jax_pomdps.spaces import Box
 
-from jax_gym._variants import register_pixels
+from jax_gym._variants import register_variants
 from jax_gym.draw import Canvas, rotate
 
 
@@ -110,4 +110,4 @@ class Pendulum:
         return jnp.zeros_like(state.theta, dtype=bool)
 
 
-register_pixels("pendulum", Pendulum)
+register_variants("pendulum", Pendulum)

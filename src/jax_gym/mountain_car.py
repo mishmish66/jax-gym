@@ -15,7 +15,7 @@ from jax.typing import ArrayLike
 from jax_pomdps import Key, register
 from jax_pomdps.spaces import Box, Discrete
 
-from jax_gym._variants import register_pixels
+from jax_gym._variants import register_variants
 from jax_gym.draw import Canvas, rotate
 
 MIN_POSITION = -1.2
@@ -202,5 +202,5 @@ class MountainCarContinuous:
         )
 
 
-register_pixels("mountain-car", MountainCar)
-register_pixels("mountain-car/continuous", MountainCarContinuous)
+register_variants("mountain-car", MountainCar)
+register_variants("mountain-car/continuous", MountainCarContinuous)

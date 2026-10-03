@@ -17,7 +17,7 @@ from jax_pomdps import Key, register
 from jax_pomdps.spaces import Box
 from mujoco import mjx
 
-from jax_gym._variants import register_pixels
+from jax_gym._variants import register_variants
 from jax_gym.mujoco import _base, render
 from jax_gym.mujoco.render import Camera
 
@@ -65,4 +65,4 @@ class InvertedPendulum:
         return ~finite | (jnp.abs(state.qpos[1]) > 0.2)
 
 
-register_pixels("inverted-pendulum", InvertedPendulum)
+register_variants("inverted-pendulum", InvertedPendulum)

@@ -182,6 +182,18 @@ step budget.
 Names join words with dashes, and variants follow slashes: task variants first
 (`lunar-lander/continuous`), then observation variants.
 
+Each Gymnasium task observes Gymnasium's observation by default, and `{name}/gym` names
+that observation explicitly; `tiger` has no `/gym`.
+
+- `{name}/mkv` observes a vector close enough to the state for a memoryless policy to
+  solve the task. Where Gymnasium's observation is one, `{name}/mkv` observes it; the
+  others are:
+  - `lunar-lander` and `lunar-lander/continuous` with `enable_wind=True`: Gymnasium's
+    observation, then the wind force and torque on the lander.
+  - `car-racing` and `car-racing/discrete`: the car's proprioception (below), its
+    velocity in its own frame, which wheels are on the road, and 10 track points ahead
+    in the car's frame.
+  - `tiger`: the side the tiger is on.
 - `{name}/pix` observes renders of the next state, uint8 of shape (64, 64, 3) by default,
   for every task but `tiger`.
 - `{name}/pix-prp` observes dicts: `"pixels"` holds the render, and `"prp"` holds
@@ -193,10 +205,8 @@ Names join words with dashes, and variants follow slashes: task variants first
     joints.
   - `car-racing` and `car-racing/discrete`: speed, wheel spins, front steering angle and
     yaw rate, scaled as Gymnasium's indicator bar scales them.
-- `car-racing/prp` observes that proprioception alone, and `car-racing/vec` adds the
-  velocity in the car's frame, which wheels are on the road, and 10 track points ahead in
-  the car's frame. Gymnasium's CarRacing observes only its 96×96 view, which `car-racing`
-  keeps.
+
+Gymnasium's CarRacing observes only its 96×96 view, which `car-racing` keeps.
 
 ```python
 env = jax_pomdps.make("hopper/pix-prp", width=84, height=84, reset_noise_scale=0.01)
@@ -213,7 +223,7 @@ Gymnasium's cameras stay fixed. Every task but `tiger` also has
 
 Steps per second, and compile times, of `jit(vmap(scan(...)))` over 4096 environments and
 100 steps, on an idle RTX 5090 with a Ryzen 9 9950X3D. Pixels are the 64×64 `/pix`
-variants; CarRacing's state is `car-racing/vec`, and its own 96×96 view runs at 593k
+variants; CarRacing's state is `car-racing/mkv`, and its own 96×96 view runs at 593k
 steps/s. Gymnasium 1.3 runs on the same machine's CPU with random actions: one env, an
 `AsyncVectorEnv` of 32, and one env rendering an `rgb_array` frame each step (64×64 for
 MuJoCo, the native size otherwise).

@@ -16,7 +16,7 @@ from jax_pomdps import Key, register
 from jax_pomdps.spaces import Box
 from mujoco import mjx
 
-from jax_gym._variants import register_pixels
+from jax_gym._variants import register_variants
 from jax_gym.mujoco import _base, render
 from jax_gym.mujoco.render import Camera
 
@@ -103,4 +103,4 @@ class Ant:
         return self.terminate_when_unhealthy & ~self._is_healthy(state)
 
 
-register_pixels("ant", Ant, lambda env: _base.ActuatedJoints(env.xml_file))
+register_variants("ant", Ant, lambda env: _base.ActuatedJoints(env.xml_file))

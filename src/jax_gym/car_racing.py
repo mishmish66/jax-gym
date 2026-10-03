@@ -21,7 +21,7 @@ from jax.typing import ArrayLike
 from jax_pomdps import Key, register
 from jax_pomdps.spaces import Box, Discrete, Image
 
-from jax_gym._variants import register_features, register_pixels
+from jax_gym._variants import register_variants
 
 FPS = 50
 DT = 1.0 / FPS
@@ -616,7 +616,7 @@ class CarRacing:
 
 
 LOOKAHEAD = 10
-"""Track points ahead of the car in `Vector` features, every second point."""
+"""Track points ahead of the car in `Markov` features, every second point."""
 
 
 @dataclass(frozen=True, slots=True)
@@ -642,7 +642,7 @@ class Proprio:
 
 
 @dataclass(frozen=True, slots=True)
-class Vector:
+class Markov:
     """`Proprio` with the car's surroundings.
 
     Adds velocity in the car's frame, which wheels are on the road, and
@@ -676,9 +676,7 @@ for _name, _factory in (
     ("car-racing/discrete", functools.partial(CarRacing, continuous=False)),
 ):
     register(_name, _factory)
-    register_pixels(_name, _factory, lambda env: Proprio())
-    register_features(f"{_name}/vec", _factory, lambda env: Vector())
-    register_features(f"{_name}/prp", _factory, lambda env: Proprio())
+    register_variants(_name, _factory, lambda env: Proprio(), lambda env: Markov())
 
 
 def _off_field(state: CarState) -> jax.Array:

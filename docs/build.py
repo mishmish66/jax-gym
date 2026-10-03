@@ -9,11 +9,11 @@ builds and publishes the site on every push to `main`.
 """
 
 import argparse
-import os
 import shutil
 from pathlib import Path
 
 import pdoc
+import pdoc.docstrings
 import pdoc.render
 
 
@@ -29,7 +29,8 @@ def main() -> None:
         print("mujoco_playground is not installed; skipping jax_gym.playground")
     else:
         modules.append("jax_gym.playground")
-    os.environ["PDOC_EMBED_IMAGES"] = "0"
+    # The site links the GIFs rather than inlining them.
+    pdoc.docstrings.embed_images = lambda docstring, source_file: docstring
     pdoc.render.configure(docformat="restructuredtext", math=True, search=True)
     pdoc.pdoc(*modules, output_directory=args.out)
     shutil.copytree(args.gifs, args.out / "gifs", dirs_exist_ok=True)

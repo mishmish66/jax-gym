@@ -11,6 +11,8 @@ from jax.typing import ArrayLike
 from jax_pomdps import Key, register
 from jax_pomdps.spaces import Discrete
 
+from jax_gym._variants import register_features
+
 
 class Side(IntEnum):
     """Where the tiger is, and where it is heard."""
@@ -74,3 +76,18 @@ class Tiger:
 
     def render(self, state: ArrayLike) -> str:
         return f"tiger {Side(int(jnp.asarray(state))).name.lower()}"
+
+
+@dataclass(frozen=True, slots=True)
+class TigerSide:
+    """Where the tiger is."""
+
+    @property
+    def space(self) -> Discrete:
+        return Discrete(len(Side))
+
+    def __call__(self, state: ArrayLike) -> jax.Array:
+        return jnp.asarray(state)
+
+
+register_features("tiger/mkv", Tiger, lambda env: TigerSide())
